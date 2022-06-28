@@ -1,0 +1,13 @@
+DDD
+
+1. Comece por uma soculao em  branco
+1.1 Criar pelo no windows na pasta do projeto a pasta SRC/tests
+
+2. Dentro do visual studio botao direito na solucao adc nova pasta 
+
+2.1 Services -> Modelagem dos contextos -> Cadastros-> Catalogo -> Core(nucleoCompartilhado) -> Fiscal->Pagamentos->Vendas
+2.2 WebApps -> Aplicacoes Web
+
+2.1 Services.Catalogo Adc novo projeto Class Library(Net Core) namespace NomeDoProjeto.OndeEleEstar.TipoDoProjeto NerdStore.Catalogo.Domain criar pa nasta Src
+
+2.2 Services.Core Adc novo projeto Class Library(Net Core) namespace NomeDoProjeto.OndeEleEstar.TipoDoProjeto NerdStore.Core criar pa nasta Src
