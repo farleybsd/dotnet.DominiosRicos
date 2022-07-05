@@ -11,3 +11,9 @@ DDD
 2.1 Services.Catalogo Adc novo projeto Class Library(Net Core) namespace NomeDoProjeto.OndeEleEstar.TipoDoProjeto NerdStore.Catalogo.Domain criar pa nasta Src
 
 2.2 Services.Core Adc novo projeto Class Library(Net Core) namespace NomeDoProjeto.OndeEleEstar.TipoDoProjeto NerdStore.Core criar pa nasta Src
+2.3 Projeto de Acesso a dados(dentro de catalogo) NerdStore.Catalogo.Data Adc novo projeto Class Library(Net Core) namespace NomeDoProjeto.OndeEleEstar.TipoDoProjeto NerdStore.Core criar pa nasta Src
+
+Pacotes EF (NerdStore.Catalogo.Data)
+Install-Package Microsoft.EntityFrameworkCore -Version 2.2.6
+Install-Package Microsoft.EntityFrameworkCore.Design -Version 2.2.6
+Install-Package Microsoft.EntityFrameworkCore.sqlserver -Version 2.2.6
