@@ -17,3 +17,7 @@ Pacotes EF (NerdStore.Catalogo.Data)
 Install-Package Microsoft.EntityFrameworkCore -Version 2.2.6
 Install-Package Microsoft.EntityFrameworkCore.Design -Version 2.2.6
 Install-Package Microsoft.EntityFrameworkCore.sqlserver -Version 2.2.6
+
+Criando EVENTO DE DOMINIO
+Instalar no NerdStore.Catalogo.Domain
+Install-Package mediatr -Version 7.0.0

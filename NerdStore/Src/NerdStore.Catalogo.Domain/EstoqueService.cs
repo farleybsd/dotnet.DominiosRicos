@@ -1,4 +1,6 @@
-﻿using System;
+﻿using NerdStore.Catalogo.Domain.Events;
+using NerdStore.Core.Bus;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,10 +11,13 @@ namespace NerdStore.Catalogo.Domain
     public class EstoqueService : IEstoqueService
     {
         private readonly IProdutoRepository _produtoRepository;
+        private readonly IMediaTrHandler _bus;
 
-        public EstoqueService(IProdutoRepository produtoRepository)
+        public EstoqueService(IProdutoRepository produtoRepository,
+                              IMediaTrHandler bus)
         {
             _produtoRepository = produtoRepository;
+            _bus = bus;
         }
 
         public async Task<bool> DebitarEstoque(Guid produtoId, int quantidade)
@@ -24,6 +29,12 @@ namespace NerdStore.Catalogo.Domain
             if (!produto.PossuiEstoque(quantidade)) return false;
 
             produto.DebitarEstoque(quantidade);
+
+            //TODO: Parametrizar a quantidade de estoque abaixo
+            if (produto.QuantidadeEstoque < 10)
+            {
+              await  _bus.PublicarEvento(new ProdutoAbaixoEstoqueEvent(produto.Id, produto.QuantidadeEstoque)); //Lancando EVENTO DE DOMINIO
+            }
 
             _produtoRepository.Atualizar(produto);
 
