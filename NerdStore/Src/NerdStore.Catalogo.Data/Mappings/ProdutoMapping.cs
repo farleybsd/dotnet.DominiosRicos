@@ -25,6 +25,10 @@ namespace NerdStore.Catalogo.Data.Mappings
                 .IsRequired()
                 .HasColumnType("varchar(250)");
 
+            builder.Property(c => c.Valor)
+               .IsRequired()
+               .HasColumnType("DECIMAL(5,2)");
+
             //Mapea uma classe em varias colunas (classes alinhadas)
             builder.OwnsOne(c => c.Dimensoes, cm =>
             {
@@ -39,6 +43,7 @@ namespace NerdStore.Catalogo.Data.Mappings
                 cm.Property(c => c.Profundidade)
                     .HasColumnName("Profundidade")
                     .HasColumnType("int");
+
             });
 
             builder.ToTable("Produtos");

@@ -22,9 +22,9 @@ namespace NerdStore.Catalogo.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             //Evitar nvachar Max
-            foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(
-              e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
-                property.Relational().ColumnType = "varchar(100)";
+            //foreach (var property in modelBuilder.Model.GetEntityTypes().SelectMany(
+            //  e => e.GetProperties().Where(p => p.ClrType == typeof(string))))
+            //    property.Relational().ColumnType = "varchar(100)";
 
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(CatalogoContext).Assembly);
         }

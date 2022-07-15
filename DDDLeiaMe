@@ -17,7 +17,21 @@ Pacotes EF (NerdStore.Catalogo.Data)
 Install-Package Microsoft.EntityFrameworkCore -Version 2.2.6
 Install-Package Microsoft.EntityFrameworkCore.Design -Version 2.2.6
 Install-Package Microsoft.EntityFrameworkCore.sqlserver -Version 2.2.6
+Install-Package Microsoft.EntityFrameworkCore.Tools -Version 2.2.6
 
 Criando EVENTO DE DOMINIO
 Instalar no NerdStore.Catalogo.Domain
+Instalar no NerdStore.Core
 Install-Package mediatr -Version 7.0.0
+
+Auto Mapper 
+Install-Package automapper -Version 8.1.1
+
+Auto Mapper injecao depedencia MVC
+Install-Package AutoMapper.Extensions.Microsoft.DependencyInjection -Version 6.1.1
+Mediator Mvc
+Install-Package MediatR.Extensions.Microsoft.DependencyInjection -Version 7.0.0
+
+Criando DB selecionar no gerenciador de pacotes o projeto Data
+Add-Migration Initial -Context CatalogoContext
+update-database -Context CatalogoContext
