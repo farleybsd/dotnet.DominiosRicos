@@ -35,3 +35,6 @@ Install-Package MediatR.Extensions.Microsoft.DependencyInjection -Version 7.0.0
 Criando DB selecionar no gerenciador de pacotes o projeto Data
 Add-Migration Initial -Context CatalogoContext
 update-database -Context CatalogoContext
+
+Instalar FluenteValidation no Core
+Install-Package FluentValidation -Version 8.4.0
