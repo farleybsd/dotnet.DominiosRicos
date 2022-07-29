@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using NerdStore.Catalogo.Application.AutoMapper;
 using NerdStore.Catalogo.Data;
+using NerdStore.Venda.Data;
 using NerdStore.WebApp.Mvc.Data;
 using NerdStore.WebApp.Mvc.Setup;
 using System;
@@ -38,6 +39,9 @@ namespace NerdStore.WebApp.Mvc
             services.AddDbContext<CatalogoContext>(options =>
                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddDbContext<VendasContext>(options =>
+               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
@@ -46,7 +50,7 @@ namespace NerdStore.WebApp.Mvc
             services.AddRazorPages();
 
             //Auto Mapper
-            services.AddAutoMapper(typeof(DomainToViewModelMappingProfile),typeof(ViewModelToDomainMappingProfile));
+            services.AddAutoMapper(typeof(DomainToViewModelMappingProfile), typeof(ViewModelToDomainMappingProfile));
 
             //Mediator
             services.AddMediatR(typeof(Startup));

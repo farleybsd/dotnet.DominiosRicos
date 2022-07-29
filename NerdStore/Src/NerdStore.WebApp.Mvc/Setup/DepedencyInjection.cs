@@ -6,8 +6,11 @@ using NerdStore.Catalogo.Data.Repository;
 using NerdStore.Catalogo.Domain;
 using NerdStore.Catalogo.Domain.Events;
 using NerdStore.Core.Bus;
+using NerdStore.Venda.Data;
+using NerdStore.Venda.Data.Repository;
 using NerdStore.Vendas.Application.Commads;
 using NerdStore.Vendas.Application.Handler;
+using NerdStore.Vendas.Domain;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +31,11 @@ namespace NerdStore.WebApp.Mvc.Setup
             services.AddScoped<IEstoqueService, EstoqueService>();
             services.AddScoped<CatalogoContext>();
 
+            // Vendas
+            services.AddScoped<IPedidoRepository, PedidoRepository>();
+            services.AddScoped<VendasContext>();
+
+            services.AddScoped<IRequestHandler<AdicionarItemPedidoCommand, bool>, PedidoCommandHandler>();
             //Eventos
             services.AddScoped<INotificationHandler<ProdutoAbaixoEstoqueEvent>, ProdutoEventHandler>();
 
