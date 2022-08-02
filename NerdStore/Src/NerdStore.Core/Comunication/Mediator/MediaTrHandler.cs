@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using NerdStore.Core.Messages;
+using NerdStore.Core.Messages.CommomMessages.Notifications;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,6 +25,11 @@ namespace NerdStore.Core.Bus
         public async Task PublicarEvento<T>(T evento) where T : Event
         {
             await _mediator.Publish(evento); // notificacao
+        }
+
+        public async  Task PublicarNotificacao<T>(T notificacao) where T : DomainNotification
+        {
+            await _mediator.Publish(notificacao);
         }
     }
 }

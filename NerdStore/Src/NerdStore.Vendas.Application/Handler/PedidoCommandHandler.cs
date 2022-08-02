@@ -8,6 +8,8 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Linq;
+using NerdStore.Core.Bus;
+using NerdStore.Core.Messages.CommomMessages.Notifications;
 
 namespace NerdStore.Vendas.Application.Handler
 {
@@ -15,10 +17,12 @@ namespace NerdStore.Vendas.Application.Handler
         IRequestHandler<AdicionarItemPedidoCommand, bool>
     {
         private readonly IPedidoRepository _pedidoRepository;
-
-        public PedidoCommandHandler(IPedidoRepository pedidoRepository)
+        private readonly IMediaTrHandler _mediaTrHandler;
+        public PedidoCommandHandler(IPedidoRepository pedidoRepository,
+                                    IMediaTrHandler mediaTrHandler)
         {
             _pedidoRepository = pedidoRepository;
+            _mediaTrHandler = mediaTrHandler;
         }
 
         public async Task<bool> Handle(AdicionarItemPedidoCommand message, CancellationToken cancellationToken)
@@ -61,7 +65,7 @@ namespace NerdStore.Vendas.Application.Handler
 
             foreach (var error in message.ValidationResult.Errors)
             {
-                // lancar um Evento de erro
+                _mediaTrHandler.PublicarNotificacao(new DomainNotification(message.MessageType, error.ErrorMessage));
 
             }
 
