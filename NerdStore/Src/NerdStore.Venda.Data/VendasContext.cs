@@ -14,9 +14,15 @@ namespace NerdStore.Venda.Data
 {
     public class VendasContext : DbContext,IUnitOfWork
     {
-        public VendasContext(DbContextOptions<VendasContext> options)
-            : base(options) { }
-        
+        //Parei Aqui 15:56
+
+        private readonly IMediaTrHandler _mediaTrHandler;
+        public VendasContext(DbContextOptions<VendasContext> options, IMediaTrHandler mediaTrHandler)
+            : base(options)
+        {
+            _mediaTrHandler = mediaTrHandler;
+        }
+
 
         public DbSet<Pedido> Pedidos { get; set; }
         public DbSet<PedidoItem> PedidoItems { get; set; }
@@ -38,7 +44,7 @@ namespace NerdStore.Venda.Data
                 }
             }
 
-
+            await _mediaTrHandler.PublicarEventos(this);
 
             return await base.SaveChangesAsync() > 0; 
         }

@@ -10,6 +10,7 @@ using NerdStore.Core.Messages.CommomMessages.Notifications;
 using NerdStore.Venda.Data;
 using NerdStore.Venda.Data.Repository;
 using NerdStore.Vendas.Application.Commads;
+using NerdStore.Vendas.Application.Events;
 using NerdStore.Vendas.Application.Handler;
 using NerdStore.Vendas.Domain;
 using System;
@@ -45,6 +46,10 @@ namespace NerdStore.WebApp.Mvc.Setup
 
             //Vendas
             services.AddScoped<IRequestHandler<AdicionarItemPedidoCommand,bool>, PedidoCommandHandler>();
+
+            services.AddScoped<INotificationHandler<PedidoRascunhoIniciadoEvent>, PedidoEventHandler>();
+            services.AddScoped<INotificationHandler<PedidoAtualizadoEvent>, PedidoEventHandler>();
+            services.AddScoped<INotificationHandler<PedidoItemAdicionadoEvent>, PedidoEventHandler>();
         }
     }
 }
