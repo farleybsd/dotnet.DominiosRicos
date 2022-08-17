@@ -44,9 +44,10 @@ namespace NerdStore.Venda.Data
                 }
             }
 
-            await _mediaTrHandler.PublicarEventos(this);
+            var sucesso = await base.SaveChangesAsync() > 0;
+            if(sucesso) await _mediaTrHandler.PublicarEventos(this);
 
-            return await base.SaveChangesAsync() > 0; 
+            return sucesso
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
