@@ -12,6 +12,7 @@ using NerdStore.Venda.Data.Repository;
 using NerdStore.Vendas.Application.Commads;
 using NerdStore.Vendas.Application.Events;
 using NerdStore.Vendas.Application.Handler;
+using NerdStore.Vendas.Application.Queries;
 using NerdStore.Vendas.Domain;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,7 @@ namespace NerdStore.WebApp.Mvc.Setup
 
             // Vendas
             services.AddScoped<IPedidoRepository, PedidoRepository>();
+            services.AddScoped<IPedidoQueries, PedidoQueries>();
             services.AddScoped<VendasContext>();
 
             services.AddScoped<IRequestHandler<AdicionarItemPedidoCommand, bool>, PedidoCommandHandler>();
