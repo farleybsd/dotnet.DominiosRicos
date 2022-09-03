@@ -11,6 +11,8 @@ using System.Linq;
 using NerdStore.Core.Bus;
 using NerdStore.Core.Messages.CommomMessages.Notifications;
 using NerdStore.Vendas.Application.Events;
+using NerdStore.Core.DomainObjects.Dto;
+using NerdStore.Core.Extensions;
 
 namespace NerdStore.Vendas.Application.Handler
 {
@@ -18,7 +20,8 @@ namespace NerdStore.Vendas.Application.Handler
         IRequestHandler<AdicionarItemPedidoCommand, bool>,
         IRequestHandler<AtualizarItemPedidoCommand, bool>,
         IRequestHandler<RemoverItemPedidoCommand, bool>,
-        IRequestHandler<AplicarVoucherPedidoCommand, bool>
+        IRequestHandler<AplicarVoucherPedidoCommand, bool>,
+        IRequestHandler<IniciarPedidoCommand, bool>
     {
         private readonly IPedidoRepository _pedidoRepository;
         private readonly IMediaTrHandler _mediaTrHandler;
@@ -66,10 +69,10 @@ namespace NerdStore.Vendas.Application.Handler
         public async Task<bool> Handle(AtualizarItemPedidoCommand message, CancellationToken cancellationToken)
         {
             if (!ValidarComando(message)) return false;
-            
+
             var pedido = await _pedidoRepository.ObterListaPorClienteId(message.ClienteId);
-            
-            if(pedido == null)
+
+            if (pedido == null)
             {
                 await _mediaTrHandler.PublicarNotificacao(new DomainNotification("pedido", "Pedido nao encontrado"));
                 return false;
@@ -77,7 +80,8 @@ namespace NerdStore.Vendas.Application.Handler
 
             var pedidoItem = await _pedidoRepository.ObterItemPorPedido(pedido.FirstOrDefault().Id, message.ProdutoId);
 
-            if (!pedido.FirstOrDefault().PedidoItemExistente(pedidoItem)){
+            if (!pedido.FirstOrDefault().PedidoItemExistente(pedidoItem))
+            {
                 await _mediaTrHandler.PublicarNotificacao(new DomainNotification("pedido", "Item Do Pedido nao encontrado"));
                 return false;
             }
@@ -155,6 +159,28 @@ namespace NerdStore.Vendas.Application.Handler
             pedido.AdicionarEvento(new VoucherAplicadoPedidoEvent(message.ClienteId, pedido.Id, voucher.Id));
 
             _pedidoRepository.Atualizar(pedido);
+
+            return await _pedidoRepository.UnitOfWork.Commit();
+        }
+
+        public async Task<bool> Handle(IniciarPedidoCommand message, CancellationToken cancellationToken)
+        {
+            if (ValidarComando(message)) return false;
+
+            var pedido = await _pedidoRepository.ObterPedidoRascunhoPorClienteId(message.ClienteId);
+            pedido.IniciarPedido();
+            _pedidoRepository.Atualizar(pedido);
+
+            var intesList = new List<Item>();
+            pedido.PedidoItems.ForEach( i => intesList.Add(new Item { Id = i.ProdutoId,Quantidade = i.Quantidade }));
+            var listaProdutosPedido = new List<ListaProdutoPedido>() {
+            new ListaProdutoPedido {PedidoId = pedido.Id,Itens = intesList }
+            };
+
+            //Evento  para outro contexto
+            pedido.AdicionarEvento(new PedidoIniciaoEvent(pedido.Id, pedido.ClienteId,
+                pedido.ValorTotal,listaProdutosPedido,message.NomeCartao, message.NumeroCartao,
+                message.ExpiracaoCartao,message.CvvCartao));
 
             return await _pedidoRepository.UnitOfWork.Commit();
         }

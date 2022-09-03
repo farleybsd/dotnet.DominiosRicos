@@ -42,3 +42,5 @@ namespace NerdStore.Vendas.Application.Commads
         }
     }
 }
+
+  
