@@ -13,8 +13,8 @@ namespace NerdStore.Vendas.Application.Events
                                       INotificationHandler<PedidoItemAdicionadoEvent>,
                                       INotificationHandler<PedidoEstoqueConfirmadoEvent>,
                                       INotificationHandler<PedidoEstoqueRejeitadoEvent>
-    {
-    {
+
+
     {
         public Task Handle(PedidoAtualizadoEvent notification, CancellationToken cancellationToken)
         {
